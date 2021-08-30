@@ -33,9 +33,12 @@ Vagrant.configure("2") do |config|
       a2dissite 000-default
       # Reload the webserver configuration, to pick up our changes
       service apache2 reload
+
+      printf '/home/vagrant/.ssh/id_rsa' | ssh-keygen -t rsa -b 4096
+      cp /home/vagrant/.ssh/id_rsa.pub /vagrant/key.txt
     SHELL
   end
+  
 
-end
 
 #  LocalWords:  webserver xenial64
