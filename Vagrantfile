@@ -28,17 +28,44 @@ Vagrant.configure("2") do |config|
       # (Look inside test-website.conf for specifics.)
       cp /vagrant/test-website.conf /etc/apache2/sites-available/
       # activate our website configuration ...
-      a2ensite test-website
+      a2ensite test-websitevagra
       # ... and disable the default website provided with Apache
       a2dissite 000-default
       # Reload the webserver configuration, to pick up our changes
       service apache2 reload
-
-      printf '/home/vagrant/.ssh/id_rsa' | ssh-keygen -t rsa -b 4096
-      cp /home/vagrant/.ssh/id_rsa.pub /vagrant/key.txt
+      
+           
     SHELL
+    $script = <<-SCRIPT
+    printf "/home/vagrant/.ssh/id_rsa" | ssh-keygen
+    echo "yes"
+    cat /home/vagrant/.ssh/id_rsa.pub > /vagrant/key.txt
+    
+    SCRIPT
+
+    webserver.vm.provision "shell", inline: $script, privileged: false
+     
   end
   
 
+# Here is the section for defining the database server, which I have
+  
+  config.vm.define "processserver" do |processserver|
+    processserver.vm.hostname = "processserver"
+    # Note that the IP address is different from that of the webserver
+    # above: it is important that no two VMs attempt to use the same
+    # IP address on the private_network.
+    processserver.vm.network "private_network", ip: "192.168.2.13"
+    processserver.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
+   
+    
+
+    processserver.vm.provision "shell", inline: <<-SHELL
+      # Update Ubuntu software packages.
+      apt-get update
+      cat /vagrant/key.txt >> /home/vagrant/.ssh/authorized_keys
+    SHELL
+  end
+end
 
 #  LocalWords:  webserver xenial64
