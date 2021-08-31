@@ -33,17 +33,30 @@ Vagrant.configure("2") do |config|
       a2dissite 000-default
       # Reload the webserver configuration, to pick up our changes
       service apache2 reload
-      
+      sudo apt-get install php7.0-cli -y
+      sudo apt-get install libssh2-1 php-ssh2 -y
            
     SHELL
     $script = <<-SCRIPT
     printf "/home/vagrant/.ssh/id_rsa" | ssh-keygen
     echo "yes"
     cat /home/vagrant/.ssh/id_rsa.pub > /vagrant/key.txt
-    
+
+    SCRIPT
+
+   sudo mkdir /opt/www-files/
+   sudo cp ~/.ssh/id_rsa* /opt/www-files/
+   sudo chown www-data:www-data /opt/www-files/
+   sudo chmod 600 /opt/www-files/*
+   sudo chmod 700 /opt/www-files/
+   sudo su
+   chown www-data:www-data /opt/www-files/id_rsa*
+   exit
+
     SCRIPT
 
     webserver.vm.provision "shell", inline: $script, privileged: false
+    webserver.vm.provision "shell", inline: $script2, privileged: true
      
   end
   
