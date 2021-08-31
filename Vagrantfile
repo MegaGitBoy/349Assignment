@@ -64,8 +64,9 @@ Vagrant.configure("2") do |config|
       # Update Ubuntu software packages.
       apt-get update
       cat /vagrant/key.txt >> /home/vagrant/.ssh/authorized_keys
+      printf "yes" | apt-get install python-pip 
+      pip install syllables
+      
     SHELL
   end
 end
-
-#  LocalWords:  webserver xenial64
