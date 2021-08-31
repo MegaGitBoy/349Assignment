@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
       # (Look inside test-website.conf for specifics.)
       cp /vagrant/test-website.conf /etc/apache2/sites-available/
       # activate our website configuration ...
-      a2ensite test-websitevagra
+      a2ensite test-website
       # ... and disable the default website provided with Apache
       a2dissite 000-default
       # Reload the webserver configuration, to pick up our changes
@@ -43,20 +43,38 @@ Vagrant.configure("2") do |config|
     cat /home/vagrant/.ssh/id_rsa.pub > /vagrant/key.txt
 
     SCRIPT
-
-   sudo mkdir /opt/www-files/
-   sudo cp ~/.ssh/id_rsa* /opt/www-files/
+   $script2 = <<-SCRIPT
+   sudo mkdir /opt/www-files
+   sudo cp /home/.ssh/id_rsa.pub /opt/www-files/
+   sudo cp /home/.ssh/id_rsa /opt/www-files/
    sudo chown www-data:www-data /opt/www-files/
-   sudo chmod 600 /opt/www-files/*
-   sudo chmod 700 /opt/www-files/
    sudo su
+   sudo chmod 600 /opt/www-files/id.rsa
+   sudo chmod 600 /opt/www-files/id.rsa.pub
+   sudo chmod 700 /opt/www-files/
+   
    chown www-data:www-data /opt/www-files/id_rsa*
    exit
 
     SCRIPT
 
     webserver.vm.provision "shell", inline: $script, privileged: false
-    webserver.vm.provision "shell", inline: $script2, privileged: true
+  
+    webserver.vm.provision "shell", inline: <<-SHELL
+     sudo rm /opt/www-files -r
+     sudo mkdir /opt/www-files
+   sudo cp /home/vagrant/.ssh/id_rsa.pub /opt/www-files/
+   sudo cp /home/vagrant/.ssh/id_rsa /opt/www-files/
+   sudo chown www-data:www-data /opt/www-files/
+   
+   sudo su
+   sudo chown www-data:www-data /opt/www-files/id_rsa.pub
+   sudo chown www-data:www-data /opt/www-files/id_rsa
+   sudo chmod 600 /opt/www-files/id.rsa
+   sudo chmod 600 /opt/www-files/id.rsa.pub
+   sudo chmod 700 /opt/www-files
+   exit
+   SHELL
      
   end
   
@@ -77,8 +95,8 @@ Vagrant.configure("2") do |config|
       # Update Ubuntu software packages.
       apt-get update
       cat /vagrant/key.txt >> /home/vagrant/.ssh/authorized_keys
-      printf "yes" | apt-get install python-pip 
-      pip install syllables
+      
+      pip3 install syllables
       
     SHELL
   end
