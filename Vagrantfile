@@ -147,8 +147,11 @@ Vagrant.configure("2") do |config|
 
       # Grant all permissions to the database user "webuser" regarding
       # the "fvision" database that we just created, above.
-      echo "GRANT ALL PRIVILEGES ON *.* TO 'webuser'@'%'" | mysql
-      
+      echo "GRANT ALL PRIVILEGES ON Angry.* TO 'webuser'@'%'" | mysql
+      echo "GRANT ALL PRIVILEGES ON Sad.* TO 'webuser'@'%'" | mysql
+echo "GRANT ALL PRIVILEGES ON Animal.* TO 'webuser'@'%'" | mysql
+echo "GRANT ALL PRIVILEGES ON Coding.* TO 'webuser'@'%'" | mysql
+echo "GRANT ALL PRIVILEGES ON Happy.* TO 'webuser'@'%'" | mysql
       # Set the MYSQL_PWD shell variable that the mysql command will
       # try to use as the database password ...
       export MYSQL_PWD='insecure_db_pw'
@@ -158,8 +161,8 @@ Vagrant.configure("2") do |config|
       # can look at the file on your host. The mysql command specifies both
       # the user to connect as (webuser) and the database to use (fvision).
       cat /vagrant/setup-database.sql | mysql -u webuser Happy
-cat /vagrant/setup-database.sql | mysql -u webuser Sad
-cat /vagrant/setup-database.sql | mysql -u webuser Angry
+cat /vagrant/setup-database-Sad.sql | mysql -u webuser Sad
+cat /vagrant/setup-database-Sad.sql | mysql -u webuser Angry
 cat /vagrant/setup-database.sql | mysql -u webuser Animal
 cat /vagrant/setup-database.sql | mysql -u webuser Coding
       # By default, MySQL only listens for local network requests,

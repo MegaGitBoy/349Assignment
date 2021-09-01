@@ -4,7 +4,7 @@ CREATE TABLE First(
   PRIMARY KEY (code)
 );
 
-INSERT INTO First VALUES ('Happy','This code is working');
+INSERT INTO First VALUES ('Happy','Theres are few haikus');
 
 
 CREATE TABLE Second(
@@ -13,7 +13,7 @@ CREATE TABLE Second(
   PRIMARY KEY (code)
 );
 
-INSERT INTO Second VALUES ('Happy','The Haikus are being stored');
+INSERT INTO Second VALUES ('Happy','I wish I could create more');
 
 
 CREATE TABLE Third(
@@ -22,5 +22,5 @@ CREATE TABLE Third(
   PRIMARY KEY (code)
 );
 
-INSERT INTO Third VALUES ('Happy','And its amazing');
+INSERT INTO Third VALUES ('Happy','But it takes so long');
 

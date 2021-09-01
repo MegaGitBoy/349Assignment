@@ -20,6 +20,10 @@ th, td {
 
 <p>Showing contents of papers table:</p>
 <form method="POST">
+Database: <input type="text" name="Database"  Required>
+  <br/>
+Label: <input type="text" name="Label"  Required>
+  <br/>
   First Stanza : <input type="text" name="first"  Required>
   <br/>
   Second Stanza: <input type="text" name="second"  Required>
@@ -43,7 +47,17 @@ if(isset($_SESSION['postdata']['first']))
     ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+print_r($_SESSION['postdata']);
+$db_host   = '192.168.2.12';
+$db_name   = $_SESSION['postdata']['Database'];
+$Label = $_SESSION['postdata']['Label'];
+$db_name = 'Sad';
+$db_user   = 'webuser';
+$db_passwd = 'insecure_db_pw';
 
+$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
+
+$pdo = new PDO($pdo_dsn, $db_user, $db_passwd);
     $first = $_SESSION['postdata']['first'];
 
     $second = $_SESSION['postdata']['second'];
@@ -63,12 +77,16 @@ error_reporting(E_ALL);
     if(strcmp(strval($output), "575") == 0)
     {
      
+    $pdo->query("INSERT INTO First VALUES ('{$Label}','{$first}');");
+     $pdo->query("INSERT INTO Second VALUES ('{$Label}','{$second}');");
+    $pdo->query("INSERT INTO Third VALUES ('{$Label}','{$third}');");
     unset($_POST);
     unset($output);
     header("Location: ".$_SERVER['PHP_SELF']);
     exit;
     }else{
-    
+    echo $Label;
+     echo "Hi";
        echo 'Syllables do not follow 5, 7, 5. Please try again.';
        
     }
