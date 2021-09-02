@@ -2,6 +2,7 @@
 This repository provides a set up of 3 virtual machines using Vagrant and Virtualbox to create a Haiku Generator.
 
 HOW TO USE:
+
 To use the appication first connect to the web server on the address 127.0.0.1:8080. From there you will be greeted by a home page
 where you can enter a haiku that you wish to add to the database. There are a selection of 5 themes that you can choose from for your
 haiku and the title of your Haiku must be unique within the theme that you have chosen. Any invalid input (such as incorrect syllable
