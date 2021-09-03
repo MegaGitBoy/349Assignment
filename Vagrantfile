@@ -109,10 +109,24 @@ Vagrant.configure("2") do |config|
     dbserver.vm.network "private_network", ip: "192.168.2.12"
     dbserver.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
     
+dbserver.trigger.before :destroy, :halt do |trigger|
+
+     
+        trigger.run_remote = {inline: "mysqldump -u root -pinsecure_mysqlroot_pw --all-databases > /vagrant/dump.sql"}
+end
+
+dbserver.trigger.after :up do |trigger|
+
+     
+        trigger.run_remote = {inline: "mysql -u root -pinsecure_mysqlroot_pw < /vagrant/dump.sql"}
+end
+
     dbserver.vm.provision "shell", inline: <<-SHELL
       # Update Ubuntu software packages.
       apt-get update
-      
+     
+
+
       # We create a shell variable MYSQL_PWD that contains the MySQL root password
       export MYSQL_PWD='insecure_mysqlroot_pw'
 
@@ -131,40 +145,36 @@ Vagrant.configure("2") do |config|
 
       # Run some setup commands to get the database ready to use.
       # First create a database.
-      echo "DROP DATABASE Happy;" | mysql
-      echo "DROP DATABASE Sad;" | mysql
-      echo "DROP DATABASE Angry;" | mysql
-      echo "DROP DATABASE Animal;" | mysql
-      echo "DROP DATABASE Coding;" | mysql
-      echo "CREATE DATABASE Happy;" | mysql
-      echo "CREATE DATABASE Sad;" | mysql
-      echo "CREATE DATABASE Angry;" | mysql
-      echo "CREATE DATABASE Animal;" | mysql
-      echo "CREATE DATABASE Coding;" | mysql
+
 
       # Then create a database user "webuser" with the given password.
-      echo "CREATE USER 'webuser'@'%' IDENTIFIED BY 'insecure_db_pw';" | mysql
+
+      #echo "CREATE USER 'webuser'@'%' IDENTIFIED BY 'insecure_db_pw';" | mysql
 
       # Grant all permissions to the database user "webuser" regarding
       # the "fvision" database that we just created, above.
-      echo "GRANT ALL PRIVILEGES ON Angry.* TO 'webuser'@'%'" | mysql
-      echo "GRANT ALL PRIVILEGES ON Sad.* TO 'webuser'@'%'" | mysql
-echo "GRANT ALL PRIVILEGES ON Animal.* TO 'webuser'@'%'" | mysql
-echo "GRANT ALL PRIVILEGES ON Coding.* TO 'webuser'@'%'" | mysql
-echo "GRANT ALL PRIVILEGES ON Happy.* TO 'webuser'@'%'" | mysql
+  
+
+
+
       # Set the MYSQL_PWD shell variable that the mysql command will
       # try to use as the database password ...
       export MYSQL_PWD='insecure_db_pw'
+
+#echo "CREATE DATABASE {your_dababase};" | mysql
+#echo "GRANT ALL PRIVILEGES ON {your_dababase}.* TO 'webuser'@'%'" | mysql
+#cat /vagrant/setup-database.sql | mysql -u root -pinsecure_mysqlroot_pw {your_dababase}
+
+
+
+
 
       # ... and run all of the SQL within the setup-database.sql file,
       # which is part of the repository containing this Vagrantfile, so you
       # can look at the file on your host. The mysql command specifies both
       # the user to connect as (webuser) and the database to use (fvision).
-      cat /vagrant/setup-database.sql | mysql -u webuser Happy
-cat /vagrant/setup-database-Sad.sql | mysql -u webuser Sad
-cat /vagrant/setup-database-Sad.sql | mysql -u webuser Angry
-cat /vagrant/setup-database.sql | mysql -u webuser Animal
-cat /vagrant/setup-database.sql | mysql -u webuser Coding
+
+
       # By default, MySQL only listens for local network requests,
       # i.e., that originate from within the dbserver VM. We need to
       # change this so that the webserver VM can connect to the
@@ -179,6 +189,12 @@ cat /vagrant/setup-database.sql | mysql -u webuser Coding
       # We then restart the MySQL server to ensure that it picks up
       # our configuration changes.
       service mysql restart
+
+
+
     SHELL
+
+    
+
   end
 end

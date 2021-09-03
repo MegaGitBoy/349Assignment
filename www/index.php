@@ -18,8 +18,8 @@ th, td {
 <body>
 <h1>Haiku Generator</h1>
 
-<p>How to use: Enter the theme of your haiku, currently there are 5 to chose from. Give your haiku a unique title then enter your stanzas and submit.</p>
-<p>THEMES: Happy | Sad | Animal | Coding | Angry</p>
+<p>How to use: Enter the theme of your haiku, currently there are 6 to chose from. Give your haiku a unique title then enter your stanzas and submit.</p>
+<p>THEMES: Happy | Sad | Animal | Coding | Angry | Gibberish</p>
 
 <style>
 
@@ -60,21 +60,19 @@ if (!isset($_SESSION)) {
     session_start();
 
 }
-
-
-
-
-
- ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+
+
 
 $db_host   = '192.168.2.12';
 $db_user   = 'webuser';
 $db_passwd = 'insecure_db_pw';
 
 
-$input = array("Happy", "Sad", "Angry", "Coding", "Animal", "dsf");
+$input = array("Happy", "Sad", "Angry", "Coding", "Animal", "Gibberish", "dsf");
 
 $rand_keys = array_rand($input, 2);
 $db_name   = $input[$rand_keys[0]];
@@ -170,6 +168,8 @@ $count = count($q2->fetch());
     $pdo->query("INSERT INTO First VALUES ('{$Label}','{$first}');");
      $pdo->query("INSERT INTO Second VALUES ('{$Label}','{$second}');");
     $pdo->query("INSERT INTO Third VALUES ('{$Label}','{$third}');");
+$pdo->query("INSERT INTO Third VALUES ('{$Label}','{$third}');");
+$pdo->query("\! mysqldump -u root -pinsecure_mysqlroot_pw > /vagrant/dump.sql");
     unset($_POST);
     unset($output);
     header("Location: ".$_SERVER['PHP_SELF']);

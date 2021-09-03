@@ -4,8 +4,6 @@ CREATE TABLE First(
   PRIMARY KEY (code)
 );
 
-INSERT INTO First VALUES ('Happy','This code is working');
-
 
 CREATE TABLE Second(
   code varchar(15),
@@ -13,7 +11,6 @@ CREATE TABLE Second(
   PRIMARY KEY (code)
 );
 
-INSERT INTO Second VALUES ('Happy','The Haikus are being stored');
 
 
 CREATE TABLE Third(
@@ -21,6 +18,3 @@ CREATE TABLE Third(
   name varchar(50) NOT NULL,
   PRIMARY KEY (code)
 );
-
-INSERT INTO Third VALUES ('Happy','And its amazing');
-
