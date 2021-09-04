@@ -6,7 +6,6 @@
 # Windows line endings.
 
 setup-database.sql text eol=lf
-setup-database-Sad.sql text eol=lf
 test-website.conf text eol=lf
 SyllableCounter.py text eol=lf
 dump.sql eol=lf
