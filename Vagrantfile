@@ -17,6 +17,9 @@ Vagrant.configure("2") do |config|
     webserver.vm.provision "shell", inline: <<-SHELL
       apt-get update
       apt-get install -y apache2 php libapache2-mod-php php-mysql  
+      #install packages so php can ssh into dbserver
+      sudo apt-get install php7.0-cli -y
+      sudo apt-get install libssh2-1 php-ssh2 -y
       # Change VM's webserver's configuration to use shared folder.
       # (Look inside test-website.conf for specifics.)
       cp /vagrant/test-website.conf /etc/apache2/sites-available/
@@ -26,12 +29,10 @@ Vagrant.configure("2") do |config|
       a2dissite 000-default
       # Reload the webserver configuration, to pick up our changes
       service apache2 reload
-      #install packages so php can ssh into dbserver
-      sudo apt-get install php7.0-cli -y
-      sudo apt-get install libssh2-1 php-ssh2 -y
-    
-    #Script and shell to create SSH keys as user vagrant       
+      
     SHELL
+    #Script and shell to create SSH keys as user vagrant       
+    
     $script = <<-SCRIPT
     printf "/home/vagrant/.ssh/id_rsa" | ssh-keygen
     echo "yes"
@@ -41,19 +42,20 @@ Vagrant.configure("2") do |config|
 
    #Copy SSH keys into new directory and set privilages for use by www-data user for PHP
    webserver.vm.provision "shell", inline: <<-SHELL
-   sudo rm /opt/www-files -r
-   sudo mkdir /opt/www-files
-   sudo cp /home/vagrant/.ssh/id_rsa.pub /opt/www-files/
-   sudo cp /home/vagrant/.ssh/id_rsa /opt/www-files/
-   sudo chown www-data:www-data /opt/www-files/ 
-   sudo su
-   sudo chown www-data:www-data /opt/www-files/id_rsa.pub
-   sudo chown www-data:www-data /opt/www-files/id_rsa
-   sudo chmod 600 /opt/www-files/id.rsa
-   sudo chmod 600 /opt/www-files/id.rsa.pub
-   sudo chmod 700 /opt/www-files
-   exit
-   SHELL  
+    sudo rm /opt/www-files -r
+    sudo mkdir /opt/www-files
+    sudo cp /home/vagrant/.ssh/id_rsa.pub /opt/www-files/
+    sudo cp /home/vagrant/.ssh/id_rsa /opt/www-files/
+    sudo chown www-data:www-data /opt/www-files/ 
+    sudo su
+    sudo chown www-data:www-data /opt/www-files/id_rsa.pub
+    sudo chown www-data:www-data /opt/www-files/id_rsa
+    sudo chmod 600 /opt/www-files/id.rsa
+    sudo chmod 600 /opt/www-files/id.rsa.pub
+    sudo chmod 700 /opt/www-files
+    exit
+
+SHELL
   end
   
   #Process server
@@ -83,7 +85,8 @@ Vagrant.configure("2") do |config|
     
     #Populate dbserver database with sql dump file upon vagrant up
     dbserver.trigger.after :up do |trigger|    
-        trigger.run_remote = {inline: "mysql -u root -pinsecure_mysqlroot_pw < /vagrant/dump.sql"}
+
+
     end
 
     
@@ -98,9 +101,11 @@ Vagrant.configure("2") do |config|
 
       # Install the MySQL database server.
       apt-get -y install mysql-server
+            mysql -u root -pinsecure_mysqlroot_pw < /vagrant/dump.sql
+            mysql -u root -pinsecure_mysqlroot_pw -e 'FLUSH PRIVILEGES'
 
       # Set the MYSQL_PWD shell variable that the mysql command will
-      # try to use as the database password ...
+      # try to use as the database password ...se
       export MYSQL_PWD='insecure_db_pw'
 
 #ADD NEW DATABASE

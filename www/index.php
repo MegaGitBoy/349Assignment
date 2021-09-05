@@ -59,7 +59,9 @@ if (!isset($_SESSION)) {
     session_start();
 
 }
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 
 $db_host   = '192.168.2.12';
@@ -130,8 +132,7 @@ $pdo = new PDO($pdo_dsn, $db_user, $db_passwd);
 }
 
 
-#Process user input and store first, second, third for entry into database. FirstF,SecondF and thirdF are passed to the 
-syllable script and remove apostraphes.
+#Process user input and store first, second, third for entry into database. FirstF,SecondF and thirdF are passed to the  syllable script and remove apostraphes.
 $first = $_SESSION['postdata']['first'];
 $first = str_replace("'", "\'", $first);
 
