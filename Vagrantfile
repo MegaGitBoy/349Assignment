@@ -69,7 +69,7 @@ SHELL
       apt-get update
       cat /vagrant/key.txt >> /home/vagrant/.ssh/authorized_keys
       echo "yes" | apt-get install python3-pip
-      pip3 install syllables
+     pip3 install syllables
       
     SHELL
   end
@@ -83,12 +83,6 @@ SHELL
         trigger.run_remote = {inline: "mysqldump -u root -pinsecure_mysqlroot_pw --all-databases > /vagrant/dump.sql"}
     end
     
-    #Populate dbserver database with sql dump file upon vagrant up
-    dbserver.trigger.after :up do |trigger|    
-
-
-    end
-
     
     dbserver.vm.provision "shell", inline: <<-SHELL
       # Update Ubuntu software packages.
@@ -101,8 +95,8 @@ SHELL
 
       # Install the MySQL database server.
       apt-get -y install mysql-server
-            mysql -u root -pinsecure_mysqlroot_pw < /vagrant/dump.sql
-            mysql -u root -pinsecure_mysqlroot_pw -e 'FLUSH PRIVILEGES'
+      mysql -u root -pinsecure_mysqlroot_pw < /vagrant/dump.sql
+      mysql -u root -pinsecure_mysqlroot_pw -e 'FLUSH PRIVILEGES'
 
       # Set the MYSQL_PWD shell variable that the mysql command will
       # try to use as the database password ...se

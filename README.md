@@ -17,12 +17,14 @@ represent a glitch in the system)
 DESIGN OF APPLICATION:
 
 web server: User interface and data entry
+
 database server: Store haikus
+
 processing server: Checks if entered haikus is indeed a haiku
 
 This application has been designed with three virtual machines: Web/interface server, database server, and processing server.
 When a user connects to the web server and enters a haiku, the stanzas are first processed to remove ' as they cause errors
-when eventually passed to the syllable estimator script. A PHP SSH extension (php-ssh2) then sets up an SSH connection to the
+when eventually passed to the syllable estimator script. Within index.php (main site file) A PHP SSH extension (php-ssh2) then sets up an SSH connection to the
 processing server that has been automtically set up during the build process by a Vagrant file. On the processing server the python
 package syllables (https://pypi.org/project/syllables/) has been installed and is used to calculate the syllabes in the stanzas.
 These values are sent back to the webserver and the corresponding PHP file then uses the theme (Database name) and title 
@@ -30,3 +32,22 @@ These values are sent back to the webserver and the corresponding PHP file then 
 set up a connection to the database server where the haiku is split into three tables (first, second, third for each respective stanza) within
 the database selected by the theme. When a user clicks the generate button. A random database and title (row) is selected for each stanza
 through another PDO MYSQL query and sent back to the webserver to be displayed.
+
+
+IMPORTANT NOTE:
+
+If you change the database and want to provision the VM afterwards, you must first either halt the VM (saves database) and 
+then start it up again, or you must run “mysqldump -u root -pinsecure_mysqlroot_pw --all-databases > /vagrant/dump.sql” in the processserver VM
+before provisioning so the changed database is saved then re-read in on provision. Otherwise, the database would resort back to the old state within the dump.sql file.
+
+FILES:
+
+dump.sql: Saved database
+
+key.txt: Public key sent to process server to set up SSH
+
+setup-database.sql: Code to create new database (theme) used by vagrant file
+
+SyllableCounter.py: Uses syllable package to count syllabes in stanzas passed from webserver
+
+test-website.conf: Basic web config
