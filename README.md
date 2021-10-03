@@ -36,7 +36,7 @@ through another PDO MYSQL query and sent back to the webserver to be displayed.
 
 IMPORTANT NOTE:
 
-If you change the database and want to provision the VM afterwards, you must first either halt the VM (saves database) and 
+If you change the database (Enter a haiku) and want to provision the VM afterwards, you must first either halt the VM (saves database) and 
 then start it up again, or you must run “mysqldump -u root -pinsecure_mysqlroot_pw --all-databases > /vagrant/dump.sql” in the processserver VM
 before provisioning so the changed database is saved then re-read in on provision. Otherwise, the database would resort back to the old state within the dump.sql file.
 
