@@ -24,9 +24,9 @@ config.vm.define "webserver" do |webserver|
     # committing security credentials to your Vagrantfile).
     
   
-    aws.access_key_id = "ASIA5CFUOESGVGRBSTO2"
-    aws.secret_access_key = "4yM6bSyQ46STkcW+XmdLR9QHd1NF0tZIGVDg/PNO"
-    aws.session_token = "FwoGZXIvYXdzENn//////////wEaDIQ5KfDkCIOVoiHPECLMAR8mwbRNY3iTicX4Kdhxs/GO+luqsvZnBCMAIlOoC8E34+flUPgWTL9OMiOCK8cnZm+WqeuFrgidUuZr/1jdSS9YIZaF7pVdep9GANuBXvZjydtRiE8PtNWUES8TQS0QpkgIUqQqK+FpfDDdAbmVLLsLMcWk/sndtYKBj7U5Vx4WYnSo4e34L0TNZGr8fgu6f7EQkWgogARCdLY7nXYUoX1B0gxAQmdq+ctsACak5kDF+72AfckEIqNoWLCD6RtHqpvZKANPa4r+RnmV0yjQ6OqKBjItJNvsLMQjrT9nVSvJySxeemgPbcwwNvnfLiUToYGtJsxNaH3Rro0mByIWny2n"
+    aws.access_key_id = "ASIA5CFUOESGYQZLP6NR"
+    aws.secret_access_key = "KU+uTPwjkKw8sWugHUdYqEYO9EAiGnFDAlUI0Oqh"
+    aws.session_token = "FwoGZXIvYXdzENv//////////wEaDPmee59zyptp/PtdcSLMAfxUZVBpD4+TNVZY4P8vAT/SlrOATZKEwbTFjc7YhJCqNzoRrfTToPfB4g3GFJBpkK7CMzDO8q0bi9nrbkegu60bp1ranlhxbWchM0u+RFSS5TgrYOrP9CO7Ibq1vZ//6f65r8p6J9MDC6ajoBd8UneycczMckm7lh++k721JdSySvtd63pyHcIkYR1nDCx+VfVOaNB9zEZiZyZtl9nCtwfhqN+JV4+mOMG7DL7gHcllDgaxA3XJnDeX+mN7DkSAiG30ZjJCaDDWwQtHQyjHj+uKBjItbcKM8iLYuLKykjr2VuZsGkyYUKAEN3xGT/wZFYhfChSBHPlpH7GV+jM6/TOl"
     # The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 
@@ -86,27 +86,23 @@ config.vm.define "webserver" do |webserver|
 
 
    webserver.vm.provision "shell", inline: <<-SHELL
-     apt-get update
+     	apt-get update
+     	sudo apt-get install php7.0-cli -y
+     	sudo apt-get install libssh2-1 php-ssh2 -y
+      	apt-get install -y apache2 php libapache2-mod-php php-mysql  
 
-      apt install -y python3-pip awscli
-    export LC_ALL="en_US.UTF-8"
-    pip3 install boto3
-
-      apt-get install -y apache2 php libapache2-mod-php php-mysql  
+	apt install -y python3-pip awscli
+    	export LC_ALL="en_US.UTF-8"
+    	pip3 install boto3
       
-
-cp /vagrant/test-website.conf /etc/apache2/sites-available/
-      # activate our website configuration ...
-      #a2ensite 000-default
-      # ... and disable the default website provided with Apache
-      #a2dissite test-website
+	cp /vagrant/test-website.conf /etc/apache2/sites-available/
 
 
 	a2ensite test-website
-      # ... and disable the default website provided with Apache
-      a2dissite 000-default
-      # Reload the webserver configuration, to pick up our changes
-      service apache2 reload
+      	# ... and disable the default website provided with Apache
+      	a2dissite 000-default
+      	# Reload the webserver configuration, to pick up our changes
+      	service apache2 reload
 
 
 
@@ -120,17 +116,44 @@ cp /vagrant/test-website.conf /etc/apache2/sites-available/
     mkdir ~/PythonFiles
       mkdir ~/.aws
       
+    printf "/home/ubuntu/.ssh/id_rsa" | ssh-keygen
+    echo "yes"
+    
 
 
       cp /vagrant/GetData.py ~/PythonFiles
+      cp /vagrant/StoreKey.py ~/PythonFiles
       
       cat /vagrant/credentials.txt > ~/.aws/credentials
+
       python3 ~/PythonFiles/GetData.py > /vagrant/www/index.php
+      python3 ~/PythonFiles/StoreKey.py
+
+
     SCRIPT
     webserver.vm.provision "shell", inline: $script, privileged: false
    
 
 
+
+
+
+#Copy SSH keys into new directory and set privilages for use by www-data user for PHP
+   webserver.vm.provision "shell", inline: <<-SHELL
+    sudo rm /opt/www-files -r
+    sudo mkdir /opt/www-files
+    sudo cp /home/ubuntu/.ssh/id_rsa.pub /opt/www-files/
+    sudo cp /home/ubuntu/.ssh/id_rsa /opt/www-files/
+    sudo chown www-data:www-data /opt/www-files/ 
+    sudo su
+    sudo chown www-data:www-data /opt/www-files/id_rsa.pub
+    sudo chown www-data:www-data /opt/www-files/id_rsa
+    sudo chmod 600 /opt/www-files/id_rsa
+    sudo chmod 600 /opt/www-files/id_rsa.pub
+    sudo chmod 700 /opt/www-files
+    exit
+
+SHELL
 
 
 
@@ -202,20 +225,26 @@ config.vm.define "processserver" do |processserver|
     override.ssh.username = "ubuntu"
   end
 
-
+   
 
    processserver.vm.provision "shell", inline: <<-SHELL
-
+apt-get update
+    	apt install -y python3-pip awscli
+    	export LC_ALL="en_US.UTF-8"
+    	pip3 install boto3
+        pip3 install syllables
+        
 
    SHELL
   
 
-
-   $script = <<-SCRIPT
+$script = <<-SCRIPT
       mkdir ~/.aws
-      cat /vagrant/credentials.txt > ~/.aws/credentials.txt
+      cat /vagrant/credentials.txt > ~/.aws/credentials
+python3 /vagrant/GetKey.py >> /home/ubuntu/.ssh/authorized_keys
     SCRIPT
     processserver.vm.provision "shell", inline: $script, privileged: false
+
 
 
 end

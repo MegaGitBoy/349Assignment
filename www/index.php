@@ -64,46 +64,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-$db_host   = '192.168.2.12';
-$db_user   = 'webuser';
-$db_passwd = 'insecure_db_pw';
-
-#THEME ARRAY
-$theme = array("Happy", "Sad", "Angry", "Coding", "Animal", "Gibberish", "dsf");
-
-#Select random theme and fetch first row
-$rand_keys = array_rand($theme, 2);
-$db_name   = $theme[$rand_keys[0]];
-$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
-$pdo = new PDO($pdo_dsn, $db_user, $db_passwd);
-$q = $pdo->query("SELECT * FROM First ORDER BY RAND() LIMIT 1;");
-while($row = $q->fetch()){
-  echo "<tr><td>$db_name</td><td>".$row["code"]."</td><td>".$row["name"]."</td></tr>\n";
-}
-
-#Select random theme and fetch second row
-$rand_keys = array_rand($theme, 2);
-$db_name   = $theme[$rand_keys[0]];
-$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
-$pdo = new PDO($pdo_dsn, $db_user, $db_passwd);
-$q2 = $pdo->query("SELECT * FROM Second ORDER BY RAND() LIMIT 1;");
-
-while($row = $q2->fetch()){
-  echo "<tr><td>$db_name</td><td>".$row["code"]."</td><td>".$row["name"]."</td></tr>\n";
-}
-
-#Select random theme and fetch third row
-$rand_keys = array_rand($theme, 2);
-$db_name   = $theme[$rand_keys[0]];
-$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
-$pdo = new PDO($pdo_dsn, $db_user, $db_passwd);
-$q3 = $pdo->query("SELECT * FROM Third ORDER BY RAND() LIMIT 1;");
-
-while($row = $q3->fetch()){
-  echo "<tr><td>$db_name</td><td>".$row["code"]."</td><td>".$row["name"]."</td></tr>\n";
-}
-
-
 
 
 
@@ -115,21 +75,6 @@ if(isset($_SESSION['postdata']['first']))
 {	
 	
 
-$db_host   = '192.168.2.12';
-$db_name   = $_SESSION['postdata']['Database'];
-$Label = $_SESSION['postdata']['Label'];
-$db_user   = 'webuser';
-$db_passwd = 'insecure_db_pw';
-
-
-$pdo_dsn = "mysql:host=$db_host;dbname=$db_name";
-#Try if database exists
-try{
-$pdo = new PDO($pdo_dsn, $db_user, $db_passwd);
-}catch(Exception $e) {
-   echo "<br>"."<br>";
-    echo "Database does not exist"."<br>";
-}
 
 
 #Process user input and store first, second, third for entry into database. FirstF,SecondF and thirdF are passed to the  syllable script and remove apostraphes.
@@ -153,16 +98,15 @@ $thirdF = str_replace("'", '', $thirdF);
    
   #Set up SSH
   $username = posix_getpwuid(posix_geteuid())['name'];
-    $ssh_conn = ssh2_connect('192.168.2.13', 22);
-    ssh2_auth_pubkey_file($ssh_conn, 'vagrant', '/opt/www-files/id_rsa.pub', '/opt/www-files/id_rsa', 'Null');
+    $ssh_conn = ssh2_connect('172.31.29.35', 22);
+    ssh2_auth_pubkey_file($ssh_conn, 'ubuntu', '/opt/www-files/id_rsa.pub', '/opt/www-files/id_rsa', 'Null');
     $stream = ssh2_exec($ssh_conn, "sudo python3 /vagrant/SyllableCounter.py '{$firstF}' '{$secondF}' '{$thirdF}'");
     stream_set_blocking($stream, true);
     $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
     $output = stream_get_contents($stream_out);
 
 #See how many rows are returned from the user entered theme. If the count is not 4, then the title used is already in use
-$q2 = $pdo->query("SELECT * FROM Second WHERE code = '{$Label}';"); 
-$count = count($q2->fetch());
+
 
 #CHANGE STRUCTURE OF POEM
 $syllableSequence = "575";
@@ -170,11 +114,7 @@ $syllableSequence = "575";
     #Check if syllable structure and title is valid. If not then echo errors.
     if(strcmp(strval($output), $syllableSequence ) == 0 and $count != 4)
     {
-    $pdo->query("INSERT INTO First VALUES ('{$Label}','{$first}');");
-    $pdo->query("INSERT INTO Second VALUES ('{$Label}','{$second}');");
-    $pdo->query("INSERT INTO Third VALUES ('{$Label}','{$third}');");
-    $pdo->query("INSERT INTO Third VALUES ('{$Label}','{$third}');");
-    $pdo->query("\! mysqldump -u root -pinsecure_mysqlroot_pw > /vagrant/dump.sql");
+    
     unset($_POST);
     unset($output);
     header("Location: ".$_SERVER['PHP_SELF']);
