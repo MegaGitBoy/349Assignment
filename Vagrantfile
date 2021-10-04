@@ -24,9 +24,9 @@ Vagrant.configure("2") do |config|
     # committing security credentials to your Vagrantfile).
     
   
-    aws.access_key_id = "ASIA5CFUOESGRQ435WQW"
-    aws.secret_access_key = "hKGQN7YC+m/FQvu4+6f6stmbKjo5Iax7NRVdlaeM"
-    aws.session_token = "FwoGZXIvYXdzEMP//////////wEaDOncR33pLKMPlNqtyyLMAR9B/PFQlqfQEAP7Nyhm86hIlOs9tq01Vjj3RTByQvAIht0NirYSUkWq94QCVaykiaHeu3goxOx68Mfro6OsB/7kNblXSqrhPdW9k/cNY8FyhdAkNyfK7nvQWnT5agwq8Eap9iTIlyo2PHUDIBu6FMwz51QfjtLmRHikmIqRTBsi5PCB9zHug0KCjmMZ7zIe1mCXQcrrAKhrxStYVDDTqjSb2QP/n1xxzF2rF9+d38Czg4AqSC59+RF75lcnBxBGdd04027BfT9n2JJm1Sjf/+WKBjItaF5lTBrXRBdAbCwQJsUUsXmaVGzfycFDwT5EBHFKAG4FJgjl2p/PgJcOlxRY"
+    aws.access_key_id = "ASIA5CFUOESGSEBVYKN3"
+    aws.secret_access_key = "TsXs7WKBqol1BKbYM4XSLnQJvDbR1qntsG6TiDkq"
+    aws.session_token = "FwoGZXIvYXdzENX//////////wEaDJ5mIuE9wsKSSp4r8SLMAXHgKWvT6yKh5lrj1AmWgZBobxvCeua6vuGokxPv0aLnXMWKNP973xh6PG6y2io6HraukxRUZmE+0lSQjJscwYhBDsiqGwewjuY7pv3/Vra/Wk5ht68HZqrdBhY3CTMNDv22iAOVdR/xc4n0BlSXTLIB6DFRjiv8quX+Exr31kt6NMltZQAhNTTuIp/zvnCTR/10k7gontkav2RCy+YYbDS3q9m/JKEcWgl7okjpzWXaXcM3gHIVYOK8wto+EsI8NdFRKPs/YsbtiUfjDSjX8OmKBjItiCyfiblUlw8uZqaJleG6pnFpox9ZL8u9Qxo9iAgBwcjh7CCNyDTe+CE0ZXe5"
 # The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 
@@ -87,6 +87,11 @@ Vagrant.configure("2") do |config|
 
    config.vm.provision "shell", inline: <<-SHELL
      apt-get update
+
+      apt install -y python3-pip awscli
+    export LC_ALL="en_US.UTF-8"
+    pip3 install boto3
+
       apt-get install -y apache2 php libapache2-mod-php php-mysql  
       cp /vagrant/test-website.conf /etc/apache2/sites-available/
       # activate our website configuration ...
@@ -101,10 +106,26 @@ Vagrant.configure("2") do |config|
       # Reload the webserver configuration, to pick up our changes
       service apache2 reload
 
+
+
+      
+      
+
    SHELL
   
     
+   $script = <<-SCRIPT
+    mkdir ~/PythonFiles
+      mkdir ~/.aws
+      
 
+
+      cp /vagrant/GetData.py ~/PythonFiles
+      
+      cat /vagrant/credentials.txt > ~/.aws/credentials.txt
+      python3 ~/GetData.py > /vagrant/www/index.php
+    SCRIPT
+    config.vm.provision "shell", inline: $script, privileged: false
 
 
 end

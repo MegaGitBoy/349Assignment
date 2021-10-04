@@ -9,3 +9,4 @@ setup-database.sql text eol=lf
 test-website.conf text eol=lf
 SyllableCounter.py text eol=lf
 dump.sql eol=lf
+GetData.py text eol=lf
