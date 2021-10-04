@@ -91,7 +91,7 @@ config.vm.define "webserver" do |webserver|
      	sudo apt-get install libssh2-1 php-ssh2 -y
       	apt-get install -y apache2 php libapache2-mod-php php-mysql  
 
-	apt install -y python3-pip awscli
+	sudo apt-get install -y python3-pip awscli
     	export LC_ALL="en_US.UTF-8"
     	pip3 install boto3
       
