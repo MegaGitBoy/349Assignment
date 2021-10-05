@@ -24,9 +24,9 @@ config.vm.define "webserver" do |webserver|
     # committing security credentials to your Vagrantfile).
     
   
-    aws.access_key_id = "ASIA5CFUOESGYQZLP6NR"
-    aws.secret_access_key = "KU+uTPwjkKw8sWugHUdYqEYO9EAiGnFDAlUI0Oqh"
-    aws.session_token = "FwoGZXIvYXdzENv//////////wEaDPmee59zyptp/PtdcSLMAfxUZVBpD4+TNVZY4P8vAT/SlrOATZKEwbTFjc7YhJCqNzoRrfTToPfB4g3GFJBpkK7CMzDO8q0bi9nrbkegu60bp1ranlhxbWchM0u+RFSS5TgrYOrP9CO7Ibq1vZ//6f65r8p6J9MDC6ajoBd8UneycczMckm7lh++k721JdSySvtd63pyHcIkYR1nDCx+VfVOaNB9zEZiZyZtl9nCtwfhqN+JV4+mOMG7DL7gHcllDgaxA3XJnDeX+mN7DkSAiG30ZjJCaDDWwQtHQyjHj+uKBjItbcKM8iLYuLKykjr2VuZsGkyYUKAEN3xGT/wZFYhfChSBHPlpH7GV+jM6/TOl"
+    aws.access_key_id = "ASIA5CFUOESGRZLKSE76"
+    aws.secret_access_key = "qIO76JRybvqcgb0GF1EkpqzqB5Kr4vVg6svvTmkq"
+    aws.session_token = "FwoGZXIvYXdzEPX//////////wEaDHg/SCzRQlThVxJ7LyLMAQ0EuQgBwMFbfE23forj9ULaiSLvnPqniX63aik0LG1ZkYMIzKOcalgaZeLv+/Na82rVL69JlLroVENZ9/Pp8hsJ4cczYQgxMozvcr5tfLDKXd8oQMGzQVQax3nCWQtEsYblhlogmo46q1VpgzxmLpzt2fKFjNUp6mfPRchCqz/+qXB5VFXQA0TRNA7jLIDyZsILbZi8OSk6zO1asoi7fukSXd+1U1Q0MKi/YsAO5XVWixj6/WvBvG+xyKgTfiQHFjSoSfKctbPx6R2eyijx+vCKBjItCvMmf6sv7mNa8M3IG39QZWgdtdYI2eNtbJg6Vx9QbccUlArLR2bAzNuyZex/"
     # The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 
@@ -93,6 +93,7 @@ config.vm.define "webserver" do |webserver|
 
 	sudo apt-get install -y python3-pip awscli
     	export LC_ALL="en_US.UTF-8"
+        pip3 install awscli
     	pip3 install boto3
       
 	cp /vagrant/test-website.conf /etc/apache2/sites-available/
@@ -166,10 +167,10 @@ config.vm.define "processserver" do |processserver|
     # committing security credentials to your Vagrantfile).
     
   
-    aws.access_key_id = "ASIA5CFUOESGVGRBSTO2"
-    aws.secret_access_key = "4yM6bSyQ46STkcW+XmdLR9QHd1NF0tZIGVDg/PNO"
-    aws.session_token = "FwoGZXIvYXdzENn//////////wEaDIQ5KfDkCIOVoiHPECLMAR8mwbRNY3iTicX4Kdhxs/GO+luqsvZnBCMAIlOoC8E34+flUPgWTL9OMiOCK8cnZm+WqeuFrgidUuZr/1jdSS9YIZaF7pVdep9GANuBXvZjydtRiE8PtNWUES8TQS0QpkgIUqQqK+FpfDDdAbmVLLsLMcWk/sndtYKBj7U5Vx4WYnSo4e34L0TNZGr8fgu6f7EQkWgogARCdLY7nXYUoX1B0gxAQmdq+ctsACak5kDF+72AfckEIqNoWLCD6RtHqpvZKANPa4r+RnmV0yjQ6OqKBjItJNvsLMQjrT9nVSvJySxeemgPbcwwNvnfLiUToYGtJsxNaH3Rro0mByIWny2n"
-    # The region for Amazon Educate is fixed.
+    aws.access_key_id = "ASIA5CFUOESGRZLKSE76"
+    aws.secret_access_key = "qIO76JRybvqcgb0GF1EkpqzqB5Kr4vVg6svvTmkq"
+    aws.session_token = "FwoGZXIvYXdzEPX//////////wEaDHg/SCzRQlThVxJ7LyLMAQ0EuQgBwMFbfE23forj9ULaiSLvnPqniX63aik0LG1ZkYMIzKOcalgaZeLv+/Na82rVL69JlLroVENZ9/Pp8hsJ4cczYQgxMozvcr5tfLDKXd8oQMGzQVQax3nCWQtEsYblhlogmo46q1VpgzxmLpzt2fKFjNUp6mfPRchCqz/+qXB5VFXQA0TRNA7jLIDyZsILbZi8OSk6zO1asoi7fukSXd+1U1Q0MKi/YsAO5XVWixj6/WvBvG+xyKgTfiQHFjSoSfKctbPx6R2eyijx+vCKBjItCvMmf6sv7mNa8M3IG39QZWgdtdYI2eNtbJg6Vx9QbccUlArLR2bAzNuyZex/"
+ 	# The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 
     # These options force synchronisation of files to the VM's
@@ -257,9 +258,9 @@ end
     # committing security credentials to your Vagrantfile).
     
   
-    aws.access_key_id = "ASIA5CFUOESGYQZLP6NR"
-    aws.secret_access_key = "KU+uTPwjkKw8sWugHUdYqEYO9EAiGnFDAlUI0Oqh"
-    aws.session_token = "FwoGZXIvYXdzENv//////////wEaDPmee59zyptp/PtdcSLMAfxUZVBpD4+TNVZY4P8vAT/SlrOATZKEwbTFjc7YhJCqNzoRrfTToPfB4g3GFJBpkK7CMzDO8q0bi9nrbkegu60bp1ranlhxbWchM0u+RFSS5TgrYOrP9CO7Ibq1vZ//6f65r8p6J9MDC6ajoBd8UneycczMckm7lh++k721JdSySvtd63pyHcIkYR1nDCx+VfVOaNB9zEZiZyZtl9nCtwfhqN+JV4+mOMG7DL7gHcllDgaxA3XJnDeX+mN7DkSAiG30ZjJCaDDWwQtHQyjHj+uKBjItbcKM8iLYuLKykjr2VuZsGkyYUKAEN3xGT/wZFYhfChSBHPlpH7GV+jM6/TOl"
+    aws.access_key_id = "ASIA5CFUOESGRZLKSE76"
+    aws.secret_access_key = "qIO76JRybvqcgb0GF1EkpqzqB5Kr4vVg6svvTmkq"
+    aws.session_token = "FwoGZXIvYXdzEPX//////////wEaDHg/SCzRQlThVxJ7LyLMAQ0EuQgBwMFbfE23forj9ULaiSLvnPqniX63aik0LG1ZkYMIzKOcalgaZeLv+/Na82rVL69JlLroVENZ9/Pp8hsJ4cczYQgxMozvcr5tfLDKXd8oQMGzQVQax3nCWQtEsYblhlogmo46q1VpgzxmLpzt2fKFjNUp6mfPRchCqz/+qXB5VFXQA0TRNA7jLIDyZsILbZi8OSk6zO1asoi7fukSXd+1U1Q0MKi/YsAO5XVWixj6/WvBvG+xyKgTfiQHFjSoSfKctbPx6R2eyijx+vCKBjItCvMmf6sv7mNa8M3IG39QZWgdtdYI2eNtbJg6Vx9QbccUlArLR2bAzNuyZex/"
     # The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 

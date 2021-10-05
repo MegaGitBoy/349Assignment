@@ -115,7 +115,7 @@ if(isset($_SESSION['postdata']['first']))
 {	
 	
 
-$db_host   = '172.31.17.182';
+$db_host   = '172.31.18.122';
 $db_name   = $_SESSION['postdata']['Database'];
 $Label = $_SESSION['postdata']['Label'];
 $db_user   = 'webuser';
