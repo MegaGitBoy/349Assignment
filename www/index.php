@@ -64,7 +64,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-$db_host   = '172.31.17.182';
+$db_host   = '172.31.25.176';
 $db_user   = 'webuser';
 $db_passwd = 'insecure_db_pw';
 
@@ -107,15 +107,15 @@ while($row = $q3->fetch()){
 
 
 
-
 #Store POST data from form submit into session object so data is refreshed on page refresh
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $_SESSION['postdata'] = $_POST;
+
 if(isset($_SESSION['postdata']['first']))
 {	
 	
 
-$db_host   = '172.31.18.122';
+$db_host   = '172.31.25.176';
 $db_name   = $_SESSION['postdata']['Database'];
 $Label = $_SESSION['postdata']['Label'];
 $db_user   = 'webuser';
@@ -150,10 +150,10 @@ $third = $_SESSION['postdata']['third'];
 
 $thirdF = $_SESSION['postdata']['third'];
 $thirdF = str_replace("'", '', $thirdF);
-   
+ 
   #Set up SSH
   $username = posix_getpwuid(posix_geteuid())['name'];
-    $ssh_conn = ssh2_connect('172.31.29.35', 22);
+    $ssh_conn = ssh2_connect('172.31.31.183', 22);
     ssh2_auth_pubkey_file($ssh_conn, 'ubuntu', '/opt/www-files/id_rsa.pub', '/opt/www-files/id_rsa', 'Null');
     $stream = ssh2_exec($ssh_conn, "sudo python3 /vagrant/SyllableCounter.py '{$firstF}' '{$secondF}' '{$thirdF}'");
     stream_set_blocking($stream, true);
@@ -166,15 +166,27 @@ $count = count($q2->fetch());
 
 #CHANGE STRUCTURE OF POEM
 $syllableSequence = "575";
-
+ 
     #Check if syllable structure and title is valid. If not then echo errors.
     if(strcmp(strval($output), $syllableSequence ) == 0 and $count != 4)
     {
+    	ssh2_exec($ssh_conn, "> /opt/www-files/NewHaiku.txt");
+	ssh2_exec($ssh_conn, "echo '' >> /opt/www-files/NewHaiku.txt");
+	ssh2_exec($ssh_conn, "echo '' >> /opt/www-files/NewHaiku.txt");
+	ssh2_exec($ssh_conn, "echo 'Theme: {$db_name}' >> /opt/www-files/NewHaiku.txt");
+	ssh2_exec($ssh_conn, "echo 'Title: {$Label}' >> /opt/www-files/NewHaiku.txt");
+	ssh2_exec($ssh_conn, "echo '' >> /opt/www-files/NewHaiku.txt");
+	ssh2_exec($ssh_conn, "echo '$first' >> /opt/www-files/NewHaiku.txt");
+	ssh2_exec($ssh_conn, "echo '$second' >> /opt/www-files/NewHaiku.txt");
+	ssh2_exec($ssh_conn, "echo '$third' >> /opt/www-files/NewHaiku.txt");
+	ssh2_exec($ssh_conn, "sudo aws s3 cp /opt/www-files/NewHaiku.txt s3://megabucketboy/EmailHaiku.txt");
+    
     $pdo->query("INSERT INTO First VALUES ('{$Label}','{$first}');");
     $pdo->query("INSERT INTO Second VALUES ('{$Label}','{$second}');");
     $pdo->query("INSERT INTO Third VALUES ('{$Label}','{$third}');");
-    $pdo->query("INSERT INTO Third VALUES ('{$Label}','{$third}');");
     $pdo->query("\! mysqldump -u root -pinsecure_mysqlroot_pw > /vagrant/dump.sql");
+    
+    
     unset($_POST);
     unset($output);
     header("Location: ".$_SERVER['PHP_SELF']);

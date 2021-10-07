@@ -24,9 +24,9 @@ config.vm.define "webserver" do |webserver|
     # committing security credentials to your Vagrantfile).
     
   
-    aws.access_key_id = "ASIA5CFUOESGRZLKSE76"
-    aws.secret_access_key = "qIO76JRybvqcgb0GF1EkpqzqB5Kr4vVg6svvTmkq"
-    aws.session_token = "FwoGZXIvYXdzEPX//////////wEaDHg/SCzRQlThVxJ7LyLMAQ0EuQgBwMFbfE23forj9ULaiSLvnPqniX63aik0LG1ZkYMIzKOcalgaZeLv+/Na82rVL69JlLroVENZ9/Pp8hsJ4cczYQgxMozvcr5tfLDKXd8oQMGzQVQax3nCWQtEsYblhlogmo46q1VpgzxmLpzt2fKFjNUp6mfPRchCqz/+qXB5VFXQA0TRNA7jLIDyZsILbZi8OSk6zO1asoi7fukSXd+1U1Q0MKi/YsAO5XVWixj6/WvBvG+xyKgTfiQHFjSoSfKctbPx6R2eyijx+vCKBjItCvMmf6sv7mNa8M3IG39QZWgdtdYI2eNtbJg6Vx9QbccUlArLR2bAzNuyZex/"
+    aws.access_key_id = "ASIA5CFUOESGV357F5VD"
+    aws.secret_access_key = "+15b6zCVH22QkLx2skG3DQkjjchuoR8LlWFjb9Fg"
+    aws.session_token = "FwoGZXIvYXdzECIaDJaWSb+eIiMYWZ7KfyLMAT3MFCD1dsqBOjKiIWIV7QUFjDthvl5ZgOnmGv1h1/KqU4UAeG9dhGbbHOghqMK9riMBqRmWkvkAJfUd5WnftLIV4DNmE+2M/t9JklaoIsGb31N8VivR9FL5FK7djw732jnYEaZUIKM2WzJ4ndmkCA5mOI4jyfk9Ai3YTkjphw5n5KaXcmXuzNz+1F2f6sOUaop0ZmIJ/XAfD9C3Tg62AGL3yM45DFZ5mc80AwTj5mn4pqZN2m+oHNK2PMFmQQnJFxsGTeFmnB4w+1xnnCjV7PqKBjIthhdtYeRd1FEr+59MluXT5yLW7uA70eBqtNe/ahQorprYJDx8iB8iCA+LbkHo"
     # The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 
@@ -167,9 +167,9 @@ config.vm.define "processserver" do |processserver|
     # committing security credentials to your Vagrantfile).
     
   
-    aws.access_key_id = "ASIA5CFUOESGRZLKSE76"
-    aws.secret_access_key = "qIO76JRybvqcgb0GF1EkpqzqB5Kr4vVg6svvTmkq"
-    aws.session_token = "FwoGZXIvYXdzEPX//////////wEaDHg/SCzRQlThVxJ7LyLMAQ0EuQgBwMFbfE23forj9ULaiSLvnPqniX63aik0LG1ZkYMIzKOcalgaZeLv+/Na82rVL69JlLroVENZ9/Pp8hsJ4cczYQgxMozvcr5tfLDKXd8oQMGzQVQax3nCWQtEsYblhlogmo46q1VpgzxmLpzt2fKFjNUp6mfPRchCqz/+qXB5VFXQA0TRNA7jLIDyZsILbZi8OSk6zO1asoi7fukSXd+1U1Q0MKi/YsAO5XVWixj6/WvBvG+xyKgTfiQHFjSoSfKctbPx6R2eyijx+vCKBjItCvMmf6sv7mNa8M3IG39QZWgdtdYI2eNtbJg6Vx9QbccUlArLR2bAzNuyZex/"
+   aws.access_key_id = "ASIA5CFUOESGV357F5VD"
+    aws.secret_access_key = "+15b6zCVH22QkLx2skG3DQkjjchuoR8LlWFjb9Fg"
+    aws.session_token = "FwoGZXIvYXdzECIaDJaWSb+eIiMYWZ7KfyLMAT3MFCD1dsqBOjKiIWIV7QUFjDthvl5ZgOnmGv1h1/KqU4UAeG9dhGbbHOghqMK9riMBqRmWkvkAJfUd5WnftLIV4DNmE+2M/t9JklaoIsGb31N8VivR9FL5FK7djw732jnYEaZUIKM2WzJ4ndmkCA5mOI4jyfk9Ai3YTkjphw5n5KaXcmXuzNz+1F2f6sOUaop0ZmIJ/XAfD9C3Tg62AGL3yM45DFZ5mc80AwTj5mn4pqZN2m+oHNK2PMFmQQnJFxsGTeFmnB4w+1xnnCjV7PqKBjIthhdtYeRd1FEr+59MluXT5yLW7uA70eBqtNe/ahQorprYJDx8iB8iCA+LbkHo"
  	# The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 
@@ -258,9 +258,9 @@ end
     # committing security credentials to your Vagrantfile).
     
   
-    aws.access_key_id = "ASIA5CFUOESGRZLKSE76"
-    aws.secret_access_key = "qIO76JRybvqcgb0GF1EkpqzqB5Kr4vVg6svvTmkq"
-    aws.session_token = "FwoGZXIvYXdzEPX//////////wEaDHg/SCzRQlThVxJ7LyLMAQ0EuQgBwMFbfE23forj9ULaiSLvnPqniX63aik0LG1ZkYMIzKOcalgaZeLv+/Na82rVL69JlLroVENZ9/Pp8hsJ4cczYQgxMozvcr5tfLDKXd8oQMGzQVQax3nCWQtEsYblhlogmo46q1VpgzxmLpzt2fKFjNUp6mfPRchCqz/+qXB5VFXQA0TRNA7jLIDyZsILbZi8OSk6zO1asoi7fukSXd+1U1Q0MKi/YsAO5XVWixj6/WvBvG+xyKgTfiQHFjSoSfKctbPx6R2eyijx+vCKBjItCvMmf6sv7mNa8M3IG39QZWgdtdYI2eNtbJg6Vx9QbccUlArLR2bAzNuyZex/"
+    aws.access_key_id = "ASIA5CFUOESGV357F5VD"
+    aws.secret_access_key = "+15b6zCVH22QkLx2skG3DQkjjchuoR8LlWFjb9Fg"
+    aws.session_token = "FwoGZXIvYXdzECIaDJaWSb+eIiMYWZ7KfyLMAT3MFCD1dsqBOjKiIWIV7QUFjDthvl5ZgOnmGv1h1/KqU4UAeG9dhGbbHOghqMK9riMBqRmWkvkAJfUd5WnftLIV4DNmE+2M/t9JklaoIsGb31N8VivR9FL5FK7djw732jnYEaZUIKM2WzJ4ndmkCA5mOI4jyfk9Ai3YTkjphw5n5KaXcmXuzNz+1F2f6sOUaop0ZmIJ/XAfD9C3Tg62AGL3yM45DFZ5mc80AwTj5mn4pqZN2m+oHNK2PMFmQQnJFxsGTeFmnB4w+1xnnCjV7PqKBjIthhdtYeRd1FEr+59MluXT5yLW7uA70eBqtNe/ahQorprYJDx8iB8iCA+LbkHo"
     # The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 
