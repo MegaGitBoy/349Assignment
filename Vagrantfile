@@ -149,7 +149,7 @@ config.vm.define "webserver" do |webserver|
 
 #Copy SSH keys into new directory and set privilages for use by www-data user for PHP
    webserver.vm.provision "shell", inline: <<-SHELL
-    sudo rm /opt/www-files -r
+   
     sudo mkdir /opt/www-files
     sudo cp /home/ubuntu/.ssh/id_rsa.pub /opt/www-files/
     sudo cp /home/ubuntu/.ssh/id_rsa /opt/www-files/
@@ -238,6 +238,7 @@ config.vm.define "processserver" do |processserver|
 
    processserver.vm.provision "shell", inline: <<-SHELL
 	apt-get update
+        sudo apt-get install -y python3-pip awscli
     	sudo add-apt-repository ppa:deadsnakes/ppa
  	sudo apt-get update
 	sudo apt-get install python3.6
@@ -248,7 +249,18 @@ config.vm.define "processserver" do |processserver|
     	pip3 install boto3
 	sudo locale-gen en_NZ.UTF-8
 	pip3 install awscli
-        
+
+
+
+	
+    sudo mkdir /opt/www-files
+    sudo touch /opt/www-files/NewHaiku.txt
+    sudo su
+    sudo chown www-data:www-data /opt/www-files
+    sudo chown www-data:www-data /opt/www-files/NewHaiku.txt
+    sudo chmod 777 /opt/www-files/NewHaiku.txt
+    sudo chmod 777 /opt/www-files
+    exit  
 
    SHELL
   
