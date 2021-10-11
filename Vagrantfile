@@ -24,9 +24,9 @@ config.vm.define "webserver" do |webserver|
     # committing security credentials to your Vagrantfile).
     
   
-    aws.access_key_id = "ASIA5CFUOESGV357F5VD"
-    aws.secret_access_key = "+15b6zCVH22QkLx2skG3DQkjjchuoR8LlWFjb9Fg"
-    aws.session_token = "FwoGZXIvYXdzECIaDJaWSb+eIiMYWZ7KfyLMAT3MFCD1dsqBOjKiIWIV7QUFjDthvl5ZgOnmGv1h1/KqU4UAeG9dhGbbHOghqMK9riMBqRmWkvkAJfUd5WnftLIV4DNmE+2M/t9JklaoIsGb31N8VivR9FL5FK7djw732jnYEaZUIKM2WzJ4ndmkCA5mOI4jyfk9Ai3YTkjphw5n5KaXcmXuzNz+1F2f6sOUaop0ZmIJ/XAfD9C3Tg62AGL3yM45DFZ5mc80AwTj5mn4pqZN2m+oHNK2PMFmQQnJFxsGTeFmnB4w+1xnnCjV7PqKBjIthhdtYeRd1FEr+59MluXT5yLW7uA70eBqtNe/ahQorprYJDx8iB8iCA+LbkHo"
+    aws.access_key_id = "AKIAU2HER5GYWUJD7QM2"
+    aws.secret_access_key = "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"
+    #aws.session_token = "FwoGZXIvYXdzEH0aDAcizOyxbI74r7YKECLMAQOI9bK7gJnJTeCB67TLvyKY1t8/S/STAjyxZqtGrLHKlOHSoZfnqNWnTNYShLT1GhpwN8v8cqhlRfBGHo3YVw7YxdENQ1jQKWE8JwN9Gxd0vjxdclVTpAhA69ukKUKgyK6ApASq4yA2yCJNh6ZQMK6Vso/XNqxHKdXnr4Rc/fiDgD+uyNkwei19lc6YMKwEdNYz8DqC1YNLX1CIyzwzdh4DU4it0ChG4PrW9Fg50a8y5O4B40hjQrFPzGITUnVvvzb+kfwuaQ4NKqKMMSi+446LBjItfEwh9EgAW9rculnpwbPIhFq61680Ze6JV7I7QcbMapNhsMQ9FOI6bGfxxl50"
     # The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 
@@ -42,12 +42,12 @@ config.vm.define "webserver" do |webserver|
     # :aws configuration section.
 
     # The keypair_name parameter tells Amazon which public key to use.
-    aws.keypair_name = "cosc349-2021"
+    aws.keypair_name = "SSH"
     # The private_key_path is a file location in your macOS account
     # (e.g., ~/.ssh/something).
     # For Windows users, just point to the path where you have downloaded the keypair
     # (e.g., C:\\Users\\leo\\.ssh\\cosc349-2021.ppk). (Use double "\\" for folder path)
-    override.ssh.private_key_path = "C:\\Users\\leo\\Downloads\\cosc349-2021.pem"
+    override.ssh.private_key_path = "~/.ssh/SSH.pem"
 
     # Choose your Amazon EC2 instance type (t2.micro is cheap).
     aws.instance_type = "t2.micro"
@@ -57,7 +57,7 @@ config.vm.define "webserver" do |webserver|
     # they should be comma-separated (if you use more than one) within
     # square brackets.
     #
-    aws.security_groups = ["sg-09a84024fbaef73a4"]
+    aws.security_groups = ["sg-051960084000b62a7"]
 
     # For Vagrant to deploy to EC2 for Amazon Educate accounts, it
     # seems that a specific availability_zone needs to be selected
@@ -65,7 +65,7 @@ config.vm.define "webserver" do |webserver|
     # availability_zone needs to be included, too (will be of the form
     # "subnet-...").
     aws.availability_zone = "us-east-1a"
-    aws.subnet_id = "subnet-b3779cff"
+    aws.subnet_id = "subnet-0cd486828db4f3d2d"
 
     # You need to chose the AMI (i.e., hard disk image) to use. This
     # will be of the form "ami-...".
@@ -92,9 +92,17 @@ config.vm.define "webserver" do |webserver|
       	apt-get install -y apache2 php libapache2-mod-php php-mysql  
 
 	sudo apt-get install -y python3-pip awscli
+	
+	sudo add-apt-repository ppa:deadsnakes/ppa
+ 	sudo apt-get update
+	sudo apt-get install python3.6
+  	sudo apt-get install python3.7
+	sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
+	sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2
     	export LC_ALL="en_US.UTF-8"
-        pip3 install awscli
     	pip3 install boto3
+	sudo locale-gen en_NZ.UTF-8
+	pip3 install awscli
       
 	cp /vagrant/test-website.conf /etc/apache2/sites-available/
 
@@ -166,11 +174,11 @@ config.vm.define "processserver" do |processserver|
     # parameters from environment variables (more secure than
     # committing security credentials to your Vagrantfile).
     
-  
-   aws.access_key_id = "ASIA5CFUOESGV357F5VD"
-    aws.secret_access_key = "+15b6zCVH22QkLx2skG3DQkjjchuoR8LlWFjb9Fg"
-    aws.session_token = "FwoGZXIvYXdzECIaDJaWSb+eIiMYWZ7KfyLMAT3MFCD1dsqBOjKiIWIV7QUFjDthvl5ZgOnmGv1h1/KqU4UAeG9dhGbbHOghqMK9riMBqRmWkvkAJfUd5WnftLIV4DNmE+2M/t9JklaoIsGb31N8VivR9FL5FK7djw732jnYEaZUIKM2WzJ4ndmkCA5mOI4jyfk9Ai3YTkjphw5n5KaXcmXuzNz+1F2f6sOUaop0ZmIJ/XAfD9C3Tg62AGL3yM45DFZ5mc80AwTj5mn4pqZN2m+oHNK2PMFmQQnJFxsGTeFmnB4w+1xnnCjV7PqKBjIthhdtYeRd1FEr+59MluXT5yLW7uA70eBqtNe/ahQorprYJDx8iB8iCA+LbkHo"
- 	# The region for Amazon Educate is fixed.
+    
+    aws.access_key_id = "AKIAU2HER5GYWUJD7QM2"
+    aws.secret_access_key = "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"
+    #aws.session_token = "FwoGZXIvYXdzEH0aDAcizOyxbI74r7YKECLMAQOI9bK7gJnJTeCB67TLvyKY1t8/S/STAjyxZqtGrLHKlOHSoZfnqNWnTNYShLT1GhpwN8v8cqhlRfBGHo3YVw7YxdENQ1jQKWE8JwN9Gxd0vjxdclVTpAhA69ukKUKgyK6ApASq4yA2yCJNh6ZQMK6Vso/XNqxHKdXnr4Rc/fiDgD+uyNkwei19lc6YMKwEdNYz8DqC1YNLX1CIyzwzdh4DU4it0ChG4PrW9Fg50a8y5O4B40hjQrFPzGITUnVvvzb+kfwuaQ4NKqKMMSi+446LBjItfEwh9EgAW9rculnpwbPIhFq61680Ze6JV7I7QcbMapNhsMQ9FOI6bGfxxl50"
+    # The region for Amazon Educate is fixed.
     aws.region = "us-east-1"
 
     # These options force synchronisation of files to the VM's
@@ -185,12 +193,12 @@ config.vm.define "processserver" do |processserver|
     # :aws configuration section.
 
     # The keypair_name parameter tells Amazon which public key to use.
-    aws.keypair_name = "cosc349-2021"
+    aws.keypair_name = "SSH"
     # The private_key_path is a file location in your macOS account
     # (e.g., ~/.ssh/something).
     # For Windows users, just point to the path where you have downloaded the keypair
     # (e.g., C:\\Users\\leo\\.ssh\\cosc349-2021.ppk). (Use double "\\" for folder path)
-    override.ssh.private_key_path = "C:\\Users\\leo\\Downloads\\cosc349-2021.pem"
+    override.ssh.private_key_path = "~/.ssh/SSH.pem"
 
     # Choose your Amazon EC2 instance type (t2.micro is cheap).
     aws.instance_type = "t2.micro"
@@ -200,7 +208,7 @@ config.vm.define "processserver" do |processserver|
     # they should be comma-separated (if you use more than one) within
     # square brackets.
     #
-    aws.security_groups = ["sg-09a84024fbaef73a4"]
+    aws.security_groups = ["sg-051960084000b62a7"]
 
     # For Vagrant to deploy to EC2 for Amazon Educate accounts, it
     # seems that a specific availability_zone needs to be selected
@@ -208,7 +216,7 @@ config.vm.define "processserver" do |processserver|
     # availability_zone needs to be included, too (will be of the form
     # "subnet-...").
     aws.availability_zone = "us-east-1a"
-    aws.subnet_id = "subnet-b3779cff"
+    aws.subnet_id = "subnet-0cd486828db4f3d2d"
 
     # You need to chose the AMI (i.e., hard disk image) to use. This
     # will be of the form "ami-...".
@@ -229,11 +237,17 @@ config.vm.define "processserver" do |processserver|
    
 
    processserver.vm.provision "shell", inline: <<-SHELL
-apt-get update
-    	apt install -y python3-pip awscli
+	apt-get update
+    	sudo add-apt-repository ppa:deadsnakes/ppa
+ 	sudo apt-get update
+	sudo apt-get install python3.6
+  	sudo apt-get install python3.7
+	sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
+	sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2
     	export LC_ALL="en_US.UTF-8"
     	pip3 install boto3
-        pip3 install syllables
+	sudo locale-gen en_NZ.UTF-8
+	pip3 install awscli
         
 
    SHELL
@@ -253,69 +267,69 @@ end
   config.vm.box = "dummy"
   config.vm.define "dbserver" do |dbserver|
     config.vm.provider :aws do |aws, override|
-    # We will gather the data for these three aws configuration
-    # parameters from environment variables (more secure than
-    # committing security credentials to your Vagrantfile).
-    
-  
-    aws.access_key_id = "ASIA5CFUOESGV357F5VD"
-    aws.secret_access_key = "+15b6zCVH22QkLx2skG3DQkjjchuoR8LlWFjb9Fg"
-    aws.session_token = "FwoGZXIvYXdzECIaDJaWSb+eIiMYWZ7KfyLMAT3MFCD1dsqBOjKiIWIV7QUFjDthvl5ZgOnmGv1h1/KqU4UAeG9dhGbbHOghqMK9riMBqRmWkvkAJfUd5WnftLIV4DNmE+2M/t9JklaoIsGb31N8VivR9FL5FK7djw732jnYEaZUIKM2WzJ4ndmkCA5mOI4jyfk9Ai3YTkjphw5n5KaXcmXuzNz+1F2f6sOUaop0ZmIJ/XAfD9C3Tg62AGL3yM45DFZ5mc80AwTj5mn4pqZN2m+oHNK2PMFmQQnJFxsGTeFmnB4w+1xnnCjV7PqKBjIthhdtYeRd1FEr+59MluXT5yLW7uA70eBqtNe/ahQorprYJDx8iB8iCA+LbkHo"
-    # The region for Amazon Educate is fixed.
-    aws.region = "us-east-1"
+      # We will gather the data for these three aws configuration
+      # parameters from environment variables (more secure than
+      # committing security credentials to your Vagrantfile).
+      
+      
+      aws.access_key_id = "AKIAU2HER5GYWUJD7QM2"
+      aws.secret_access_key = "qS9MP0mZHsjTJ7xi0KIyO/s9Xkzw2zCk091GEviN"
+      #aws.session_token = "FwoGZXIvYXdzEH0aDAcizOyxbI74r7YKECLMAQOI9bK7gJnJTeCB67TLvyKY1t8/S/STAjyxZqtGrLHKlOHSoZfnqNWnTNYShLT1GhpwN8v8cqhlRfBGHo3YVw7YxdENQ1jQKWE8JwN9Gxd0vjxdclVTpAhA69ukKUKgyK6ApASq4yA2yCJNh6ZQMK6Vso/XNqxHKdXnr4Rc/fiDgD+uyNkwei19lc6YMKwEdNYz8DqC1YNLX1CIyzwzdh4DU4it0ChG4PrW9Fg50a8y5O4B40hjQrFPzGITUnVvvzb+kfwuaQ4NKqKMMSi+446LBjItfEwh9EgAW9rculnpwbPIhFq61680Ze6JV7I7QcbMapNhsMQ9FOI6bGfxxl50"
+      # The region for Amazon Educate is fixed.
+      aws.region = "us-east-1"
 
-    # These options force synchronisation of files to the VM's
-    # /vagrant directory using rsync, rather than using trying to use
-    # SMB (which will not be available by default).
-    override.nfs.functional = false
-    override.vm.allowed_synced_folder_types = :rsync
+      # These options force synchronisation of files to the VM's
+      # /vagrant directory using rsync, rather than using trying to use
+      # SMB (which will not be available by default).
+      override.nfs.functional = false
+      override.vm.allowed_synced_folder_types = :rsync
 
-    # Following the lab instructions should lead you to provide values
-    # appropriate for your environment for the configuration variable
-    # assignments preceded by double-hashes in the remainder of this
-    # :aws configuration section.
+      # Following the lab instructions should lead you to provide values
+      # appropriate for your environment for the configuration variable
+      # assignments preceded by double-hashes in the remainder of this
+      # :aws configuration section.
 
-    # The keypair_name parameter tells Amazon which public key to use.
-    aws.keypair_name = "cosc349-2021"
-    # The private_key_path is a file location in your macOS account
-    # (e.g., ~/.ssh/something).
-    # For Windows users, just point to the path where you have downloaded the keypair
-    # (e.g., C:\\Users\\leo\\.ssh\\cosc349-2021.ppk). (Use double "\\" for folder path)
-    override.ssh.private_key_path = "C:\\Users\\leo\\Downloads\\cosc349-2021.pem"
+      # The keypair_name parameter tells Amazon which public key to use.
+      aws.keypair_name = "SSH"
+      # The private_key_path is a file location in your macOS account
+      # (e.g., ~/.ssh/something).
+      # For Windows users, just point to the path where you have downloaded the keypair
+      # (e.g., C:\\Users\\leo\\.ssh\\cosc349-2021.ppk). (Use double "\\" for folder path)
+      override.ssh.private_key_path = "~/.ssh/SSH.pem"
 
-    # Choose your Amazon EC2 instance type (t2.micro is cheap).
-    aws.instance_type = "t2.micro"
+      # Choose your Amazon EC2 instance type (t2.micro is cheap).
+      aws.instance_type = "t2.micro"
 
-    # You need to indicate the list of security groups your VM should
-    # be in. Each security group will be of the form "sg-...", and
-    # they should be comma-separated (if you use more than one) within
-    # square brackets.
-    #
-    aws.security_groups = ["sg-09a84024fbaef73a4"]
+      # You need to indicate the list of security groups your VM should
+      # be in. Each security group will be of the form "sg-...", and
+      # they should be comma-separated (if you use more than one) within
+      # square brackets.
+      #
+      aws.security_groups = ["sg-051960084000b62a7"]
 
-    # For Vagrant to deploy to EC2 for Amazon Educate accounts, it
-    # seems that a specific availability_zone needs to be selected
-    # (will be of the form "us-east-1a"). The subnet_id for that
-    # availability_zone needs to be included, too (will be of the form
-    # "subnet-...").
-    aws.availability_zone = "us-east-1a"
-    aws.subnet_id = "subnet-b3779cff"
+      # For Vagrant to deploy to EC2 for Amazon Educate accounts, it
+      # seems that a specific availability_zone needs to be selected
+      # (will be of the form "us-east-1a"). The subnet_id for that
+      # availability_zone needs to be included, too (will be of the form
+      # "subnet-...").
+      aws.availability_zone = "us-east-1a"
+      aws.subnet_id = "subnet-0cd486828db4f3d2d"
 
-    # You need to chose the AMI (i.e., hard disk image) to use. This
-    # will be of the form "ami-...".
-    # 
-    # If you want to use Ubuntu Linux, you can discover the official
-    # Ubuntu AMIs: https://cloud-images.ubuntu.com/locator/ec2/
-    #
-    # You need to get the region correct, and the correct form of
-    # configuration (probably amd64, hvm:ebs-ssd, hvm).
-    #
-    aws.ami = "ami-0133407e358cc1af0"
+      # You need to chose the AMI (i.e., hard disk image) to use. This
+      # will be of the form "ami-...".
+      # 
+      # If you want to use Ubuntu Linux, you can discover the official
+      # Ubuntu AMIs: https://cloud-images.ubuntu.com/locator/ec2/
+      #
+      # You need to get the region correct, and the correct form of
+      # configuration (probably amd64, hvm:ebs-ssd, hvm).
+      #
+      aws.ami = "ami-0133407e358cc1af0"
 
-    # If using Ubuntu, you probably also need to uncomment the line
-    # below, so that Vagrant connects using username "ubuntu".
-    override.ssh.username = "ubuntu"
-  end
+      # If using Ubuntu, you probably also need to uncomment the line
+      # below, so that Vagrant connects using username "ubuntu".
+      override.ssh.username = "ubuntu"
+    end
     dbserver.trigger.before :destroy, :halt do |trigger|
         trigger.run_remote = {inline: "mysqldump -u root -pinsecure_mysqlroot_pw --all-databases > /vagrant/dump.sql"}
     end

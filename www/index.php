@@ -64,7 +64,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-$db_host   = '172.31.25.176';
+$db_host   = '172.31.31.141';
 $db_user   = 'webuser';
 $db_passwd = 'insecure_db_pw';
 
@@ -115,9 +115,10 @@ if(isset($_SESSION['postdata']['first']))
 {	
 	
 
-$db_host   = '172.31.25.176';
+$db_host   = '172.31.31.141';
 $db_name   = $_SESSION['postdata']['Database'];
 $Label = $_SESSION['postdata']['Label'];
+$Label = str_replace("'", "\'", $Label);
 $db_user   = 'webuser';
 $db_passwd = 'insecure_db_pw';
 
@@ -153,7 +154,7 @@ $thirdF = str_replace("'", '', $thirdF);
  
   #Set up SSH
   $username = posix_getpwuid(posix_geteuid())['name'];
-    $ssh_conn = ssh2_connect('172.31.31.183', 22);
+    $ssh_conn = ssh2_connect('172.31.18.237', 22);
     ssh2_auth_pubkey_file($ssh_conn, 'ubuntu', '/opt/www-files/id_rsa.pub', '/opt/www-files/id_rsa', 'Null');
     $stream = ssh2_exec($ssh_conn, "sudo python3 /vagrant/SyllableCounter.py '{$firstF}' '{$secondF}' '{$thirdF}'");
     stream_set_blocking($stream, true);
@@ -179,7 +180,7 @@ $syllableSequence = "575";
 	ssh2_exec($ssh_conn, "echo '$first' >> /opt/www-files/NewHaiku.txt");
 	ssh2_exec($ssh_conn, "echo '$second' >> /opt/www-files/NewHaiku.txt");
 	ssh2_exec($ssh_conn, "echo '$third' >> /opt/www-files/NewHaiku.txt");
-	ssh2_exec($ssh_conn, "sudo aws s3 cp /opt/www-files/NewHaiku.txt s3://megabucketboy/EmailHaiku.txt");
+	ssh2_exec($ssh_conn, "sudo aws s3 cp /opt/www-files/NewHaiku.txt s3://megabucketboy2/EmailHaiku.txt");
     
     $pdo->query("INSERT INTO First VALUES ('{$Label}','{$first}');");
     $pdo->query("INSERT INTO Second VALUES ('{$Label}','{$second}');");
